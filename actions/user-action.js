@@ -1,16 +1,20 @@
-let users = [
-  { id: 1, name: 'Hafiz' },
-  { id: 2, name: 'Gaza' },
-];
+const {
+  getUsers,
+  getUserById,
+  updateNameByIdx,
+  getIndexById,
+  removeDataByIdx,
+  insertNewUser,
+} = require('../gateways/user-gateway');
 
 module.exports.getAllDataUser = (req, res) => {
   res.setHeader('Content-Type', 'application/json');
-  res.end(JSON.stringify(users));
+  res.end(JSON.stringify(getUsers()));
 };
 
 module.exports.getDataUserById = (req, res) => {
   const userId = parseInt(req.params.id); // Mengambil ID dari req.params
-  const user = users.find((u) => u.id === userId);
+  const user = getUserById(userId);
 
   if (user) {
     res.setHeader('Content-Type', 'application/json');
@@ -22,11 +26,7 @@ module.exports.getDataUserById = (req, res) => {
 };
 
 module.exports.addNewUser = (req, res) => {
-  const newUser = {
-    id: users.length + 1,
-    name: req.body.name,
-  };
-  users.push(newUser);
+  const newUser = insertNewUser(req.body.name);
 
   res.setHeader('Content-Type', 'application/json');
   res.statusCode = 201;
@@ -35,12 +35,12 @@ module.exports.addNewUser = (req, res) => {
 
 module.exports.editUser = (req, res) => {
   const userId = parseInt(req.params.id); // Mengambil ID dari req.params
-  const userIndex = users.findIndex((u) => u.id === userId);
+  const userIndex = getIndexById(userId);
 
   if (userIndex !== -1) {
-    users[userIndex].name = req.body.name;
+    const dataUpdate = updateNameByIdx(userIndex, req.body.name);
     res.setHeader('Content-Type', 'application/json');
-    res.end(JSON.stringify(users[userIndex]));
+    res.end(JSON.stringify(dataUpdate));
   } else {
     res.statusCode = 404;
     res.end('User not found');
@@ -49,10 +49,10 @@ module.exports.editUser = (req, res) => {
 
 module.exports.removeUser = (req, res) => {
   const userId = parseInt(req.params.id); // Mengambil ID dari req.params
-  const userIndex = users.findIndex((u) => u.id === userId);
+  const userIndex = getIndexById(userId);
 
   if (userIndex !== -1) {
-    const deletedUser = users.splice(userIndex, 1);
+    const deletedUser = removeDataByIdx(userIndex);
     res.setHeader('Content-Type', 'application/json');
     res.end(JSON.stringify(deletedUser[0]));
   } else {
