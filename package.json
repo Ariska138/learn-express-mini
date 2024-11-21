@@ -2,7 +2,8 @@
   "scripts": {
     "start": "node dist/server.js",
     "build": "tsc",
-    "dev": "ts-node-dev src/server.ts"
+    "dev": "ts-node-dev src/server.ts",
+    "build:watch": "tsc --watch"
   },
   "dependencies": {
     "express": "^4.21.1"
