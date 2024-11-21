@@ -3,15 +3,15 @@ let users = [
   { id: 2, name: 'Gaza' },
 ];
 
-module.exports.getUsers = () => {
+export const getUsers = () => {
   return users;
 };
 
-module.exports.getUserById = (userId) => {
+export const getUserById = (userId: number) => {
   return users.find((u) => u.id === userId);
 };
 
-module.exports.insertNewUser = (name) => {
+export const insertNewUser = (name: string) => {
   const newUser = {
     id: users.length + 1,
     name,
@@ -21,16 +21,16 @@ module.exports.insertNewUser = (name) => {
   return newUser;
 };
 
-module.exports.getIndexById = (userId) => {
+export const getIndexById = (userId: number) => {
   return users.findIndex((user) => user.id === userId);
 };
 
-module.exports.updateNameByIdx = (index, newName) => {
+export const updateNameByIdx = (index: number, newName: string) => {
   users[index] = { ...users[index], name: newName };
 
   return users[index];
 };
 
-module.exports.removeDataByIdx = (index) => {
+export const removeDataByIdx = (index: any) => {
   return users.splice(index, 1);
 };

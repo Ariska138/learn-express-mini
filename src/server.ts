@@ -1,15 +1,17 @@
-const MyExpress = require('express');
-const {
+import express from 'express';
+
+import {
   getAllDataUser,
   getDataUserById,
   addNewUser,
   editUser,
   removeUser,
-} = require('./actions/user-action');
-const app = new MyExpress();
+} from './actions/user-action';
+
+const app = express();
 
 // Middleware untuk mengurai JSON body
-app.use(MyExpress.json());
+app.use(express.json());
 
 app.get('/api/users', getAllDataUser);
 app.get('/api/users/:id', getDataUserById);

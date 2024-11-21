@@ -1,18 +1,22 @@
-const {
+import { Request, Response } from 'express';
+
+import {
   getUsers,
   getUserById,
   updateNameByIdx,
   getIndexById,
   removeDataByIdx,
   insertNewUser,
-} = require('../gateways/user-gateway');
+} from '../gateways/user-gateway';
 
-module.exports.getAllDataUser = (req, res) => {
+// variasi 1
+export function getAllDataUser(req: Request, res: Response) {
   res.setHeader('Content-Type', 'application/json');
   res.end(JSON.stringify(getUsers()));
 };
 
-module.exports.getDataUserById = (req, res) => {
+// variasi 2
+const getDataUserById = (req: Request, res: Response) => {
   const userId = parseInt(req.params.id); // Mengambil ID dari req.params
   const user = getUserById(userId);
 
@@ -25,7 +29,8 @@ module.exports.getDataUserById = (req, res) => {
   }
 };
 
-module.exports.addNewUser = (req, res) => {
+//variasi 3
+export const addNewUser = (req: Request, res: Response) => {
   const newUser = insertNewUser(req.body.name);
 
   res.setHeader('Content-Type', 'application/json');
@@ -33,7 +38,8 @@ module.exports.addNewUser = (req, res) => {
   res.end(JSON.stringify(newUser));
 };
 
-module.exports.editUser = (req, res) => {
+// variasi 3
+export const editUser = (req: Request, res: Response) => {
   const userId = parseInt(req.params.id); // Mengambil ID dari req.params
   const userIndex = getIndexById(userId);
 
@@ -47,7 +53,8 @@ module.exports.editUser = (req, res) => {
   }
 };
 
-module.exports.removeUser = (req, res) => {
+// variasi 2
+const removeUser = (req: Request, res: Response) => {
   const userId = parseInt(req.params.id); // Mengambil ID dari req.params
   const userIndex = getIndexById(userId);
 
@@ -60,3 +67,8 @@ module.exports.removeUser = (req, res) => {
     res.end('User not found');
   }
 };
+
+export {
+  getDataUserById,
+  removeUser
+}
